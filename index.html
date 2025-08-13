@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   
   <!-- Fixed: Added integrity and crossorigin attributes for better security -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
   
   <style>
     body {
@@ -36,6 +36,7 @@
       box-shadow: 0 15px 35px rgba(0,0,0,0.15);
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.3);
+      text-align: center; /* Center content in card */
     }
     
     .activity-card:hover {
@@ -101,6 +102,26 @@
       background: linear-gradient(45deg, #FF8800, #FF5500);
     }
     
+    .explore-button {
+      background: linear-gradient(45deg, #4A90E2, #00416A);
+      color: white;
+      font-weight: bold;
+      padding: 15px 40px;
+      border-radius: 60px;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4);
+      font-size: 1.2rem;
+      border: none;
+      cursor: pointer;
+      display: inline-block;
+    }
+    
+    .explore-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(74, 144, 226, 0.6);
+      background: linear-gradient(45deg, #5A9EE3, #00527B);
+    }
+    
     .instagram-icon {
       filter: brightness(0) invert(1);
     }
@@ -123,13 +144,15 @@
       font-weight: 800;
       color: #00416A;
       text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      text-align: center;
+      margin-bottom: 8px;
     }
     
-    .activity-subtitle {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #4A90E2;
+    .activity-desc {
+      font-size: 0.9rem;
+      color: #666;
       margin-bottom: 15px;
+      line-height: 1.4;
     }
     
     .card-content {
@@ -156,6 +179,36 @@
       100% { transform: scale(1); }
     }
     
+    /* Language toggle button */
+    .language-toggle {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 25px;
+      padding: 5px;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .language-toggle button {
+      background: none;
+      border: none;
+      padding: 8px 15px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      color: white;
+    }
+    
+    .language-toggle button.active {
+      background: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
     /* Fixed: Added responsive adjustments */
     @media (max-width: 640px) {
       .hero {
@@ -170,7 +223,7 @@
         font-size: 1.2rem;
       }
       
-      .book-button {
+      .book-button, .explore-button {
         padding: 12px 30px;
         font-size: 1rem;
       }
@@ -277,36 +330,16 @@
       background: linear-gradient(45deg, #5A9EE3, #00527B);
     }
     
-    .language-toggle {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 20px;
-      background: #f0f0f0;
-      border-radius: 25px;
-      padding: 5px;
-      width: fit-content;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    .language-toggle button {
-      background: none;
-      border: none;
-      padding: 8px 15px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      border-radius: 20px;
-      transition: all 0.3s ease;
-    }
-    
-    .language-toggle button.active {
-      background: white;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    
-    .japanese-text {
+    /* Hide Japanese text by default */
+    .jp-text {
       display: none;
+    }
+    
+    /* Center the last activity */
+    .last-activity {
+      grid-column: 1 / -1;
+      max-width: 380px;
+      margin: 0 auto;
     }
   </style>
 </head>
@@ -319,10 +352,15 @@
         <img src="https://i.imgur.com/G2aRZc4.jpg" alt="Seapark Chatan Logo" class="logo">
         <div class="ml-6">
           <h1 class="text-5xl font-bold text-white drop-shadow-lg">SEAPARK CHATAN</h1>
-          <p class="text-2xl text-white/95 drop-shadow">水上アスレチック</p>
+          <p class="text-2xl text-white/95 drop-shadow en-text">水上アスレチック</p>
+          <p class="text-2xl text-white/95 drop-shadow jp-text">Water Activities</p>
         </div>
       </div>
-      <div>
+      <div class="flex items-center space-x-4">
+        <div class="language-toggle">
+          <button id="englishBtn" class="active">English</button>
+          <button id="japaneseBtn">日本語</button>
+        </div>
         <button class="book-button floating" id="openBookingForm">
           Book Now
         </button>
@@ -333,9 +371,11 @@
   <!-- Hero Section -->
   <section class="hero">
     <div class="max-w-5xl mx-auto px-4">
-      <h1 class="text-7xl font-bold mb-6 drop-shadow-2xl">ADVENTURE AWAITS</h1>
-      <p class="text-2xl mb-10 drop-shadow-xl">Experience the ultimate water activities in Okinawa</p>
-      <button class="book-button text-xl floating" id="openBookingForm2">
+      <h1 class="text-7xl font-bold mb-6 drop-shadow-2xl en-text">ADVENTURE AWAITS</h1>
+      <h1 class="text-7xl font-bold mb-6 drop-shadow-2xl jp-text">冒険が待っています</h1>
+      <p class="text-2xl mb-10 drop-shadow-xl en-text">Experience the ultimate water activities in Okinawa</p>
+      <p class="text-2xl mb-10 drop-shadow-xl jp-text">沖縄で究極の水上アクティビティを体験してください</p>
+      <button class="explore-button text-xl floating" id="exploreActivities">
         Explore Activities
       </button>
     </div>
@@ -344,10 +384,15 @@
   <!-- Main Content -->
   <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
     <div class="text-center mb-16">
-      <h2 class="text-5xl font-bold text-white drop-shadow-2xl mb-6">Our Water Adventures</h2>
-      <p class="text-xl text-white/90 max-w-3xl mx-auto drop-shadow">
+      <h2 class="text-5xl font-bold text-white drop-shadow-2xl mb-6 en-text">Our Water Adventures</h2>
+      <h2 class="text-5xl font-bold text-white drop-shadow-2xl mb-6 jp-text">私たちの水上アドベンチャー</h2>
+      <p class="text-xl text-white/90 max-w-3xl mx-auto drop-shadow en-text">
         Discover a world of aquatic excitement with our premium water activities. 
         From high-adrenaline adventures to relaxing sunset experiences, we have something for everyone.
+      </p>
+      <p class="text-xl text-white/90 max-w-3xl mx-auto drop-shadow jp-text">
+        プレミアムな水上アクティビティで、水の世界のエキサイトメントを発見してください。
+        高揚感のあるアドベンチャーからリラックスできる夕暮れ体験まで、すべてのお客様にぴったりのものがございます。
       </p>
     </div>
     
@@ -357,10 +402,13 @@
       <div class="activity-card fade-in" style="animation-delay: 0.1s">
         <img src="https://placehold.co/400x300/00416A/FFFFFF?text=Floating+Obstacle+Course" alt="Floating Obstacle Course" class="w-full h-56 object-cover">
         <div class="card-content">
-          <h2 class="activity-title">Floating Obstacle Course</h2>
-          <p class="activity-subtitle">WATER ADVENTURE</p>
+          <h2 class="activity-title en-text">Floating Obstacle Course</h2>
+          <h2 class="activity-title jp-text">フローティング障害物コース</h2>
+          <p class="activity-desc en-text">Navigate through our challenging floating obstacle course with various platforms, ropes, and slides.</p>
+          <p class="activity-desc jp-text">さまざまなプラットフォーム、ロープ、スライドで構成される挑戦的なフローティング障害物コースをナビゲートしましょう。</p>
           <div class="flex justify-between items-center">
-            <span class="duration">Duration: 50min</span>
+            <span class="duration en-text">Duration: 50min</span>
+            <span class="duration jp-text">所要時間: 50分</span>
             <span class="price">¥3,000</span>
           </div>
         </div>
@@ -371,10 +419,13 @@
         <!-- Fixed: Added specific class to resize the image -->
         <img src="https://i.imgur.com/jgbBvxx.jpg" alt="Jet Ski & Marine Package" class="w-full h-56 activity-2-img object-cover">
         <div class="card-content">
-          <h2 class="activity-title">Jet Ski & Marine Package (3 Items)</h2>
-          <p class="activity-subtitle">3 Tube Rides Package</p>
+          <h2 class="activity-title en-text">Jet Ski & Marine Package</h2>
+          <h2 class="activity-title jp-text">ジェットスキー＆マリンパッケージ</h2>
+          <p class="activity-desc en-text">Enjoy an exhilarating ride on our jet skis with a 3-tube rides package for maximum fun.</p>
+          <p class="activity-desc jp-text">最大限の楽しさのために、3つのチューブライドパッケージでジェットスキーのエキサイティングな乗り物をお楽しみください。</p>
           <div class="flex justify-between items-center">
-            <span class="duration">Duration: 50min</span>
+            <span class="duration en-text">Duration: 50min</span>
+            <span class="duration jp-text">所要時間: 50分</span>
             <span class="price">¥6,900</span>
           </div>
         </div>
@@ -384,9 +435,13 @@
       <div class="activity-card fade-in" style="animation-delay: 0.3s">
         <img src="https://placehold.co/400x300/4A90E2/FFFFFF?text=Flyboard" alt="Flyboard" class="w-full h-56 object-cover">
         <div class="card-content">
-          <h2 class="activity-title">Flyboard</h2>
+          <h2 class="activity-title en-text">Flyboard</h2>
+          <h2 class="activity-title jp-text">フライボード</h2>
+          <p class="activity-desc en-text">Experience the thrill of flying above water with our state-of-the-art flyboard technology.</p>
+          <p class="activity-desc jp-text">最新のフライボード技術で、水上を飛ぶスリルを体験してください。</p>
           <div class="flex justify-between items-center">
-            <span class="duration">Duration: 20min</span>
+            <span class="duration en-text">Duration: 20min</span>
+            <span class="duration jp-text">所要時間: 20分</span>
             <span class="price">¥7,000</span>
           </div>
         </div>
@@ -396,9 +451,13 @@
       <div class="activity-card fade-in" style="animation-delay: 0.4s">
         <img src="https://placehold.co/400x300/50C878/FFFFFF?text=Spinning+Tube" alt="Spinning Tube" class="w-full h-56 object-cover">
         <div class="card-content">
-          <h2 class="activity-title">Spinning Tube</h2>
+          <h2 class="activity-title en-text">Spinning Tube</h2>
+          <h2 class="activity-title jp-text">スピンチューブ</h2>
+          <p class="activity-desc en-text">Hold on tight as you're pulled at high speeds in our spinning tube for maximum excitement.</p>
+          <p class="activity-desc jp-text">最大の興奮のために、高速で引っ張られるスピンチューブでしっかりとつかまってください。</p>
           <div class="flex justify-between items-center">
-            <span class="duration">Duration: 20min</span>
+            <span class="duration en-text">Duration: 20min</span>
+            <span class="duration jp-text">所要時間: 20分</span>
             <span class="price">¥3,000</span>
           </div>
         </div>
@@ -408,9 +467,13 @@
       <div class="activity-card fade-in" style="animation-delay: 0.5s">
         <img src="https://placehold.co/400x300/FFD700/00416A?text=Wakeboarding" alt="Wakeboarding" class="w-full h-56 object-cover">
         <div class="card-content">
-          <h2 class="activity-title">Wakeboarding</h2>
+          <h2 class="activity-title en-text">Wakeboarding</h2>
+          <h2 class="activity-title jp-text">ウェイクボード</h2>
+          <p class="activity-desc en-text">Ride the waves behind our boat and perform tricks on your wakeboard.</p>
+          <p class="activity-desc jp-text">ボートの後ろで波に乗ってウェイクボードでトリックを披露しましょう。</p>
           <div class="flex justify-between items-center">
-            <span class="duration">Duration: 20min</span>
+            <span class="duration en-text">Duration: 20min</span>
+            <span class="duration jp-text">所要時間: 20分</span>
             <span class="price">¥7,000</span>
           </div>
         </div>
@@ -420,10 +483,13 @@
       <div class="activity-card fade-in" style="animation-delay: 0.6s">
         <img src="https://placehold.co/400x300/D90000/FFFFFF?text=Sunset+SUP" alt="Sunset Stand-Up Paddleboarding" class="w-full h-56 object-cover">
         <div class="card-content">
-          <h2 class="activity-title">Sunset Stand-Up Paddleboarding</h2>
-          <p class="activity-subtitle">Sunset SUP</p>
+          <h2 class="activity-title en-text">Sunset Stand-Up Paddleboarding</h2>
+          <h2 class="activity-title jp-text">サンセットスタンドアップパドルボード</h2>
+          <p class="activity-desc en-text">Glide peacefully across the water during the magical sunset hours on a paddleboard.</p>
+          <p class="activity-desc jp-text">パドルボードで魔法のような夕暮れ時の間に水面を静かに滑走しましょう。</p>
           <div class="flex justify-between items-center">
-            <span class="duration">Duration: 30min</span>
+            <span class="duration en-text">Duration: 30min</span>
+            <span class="duration jp-text">所要時間: 30分</span>
             <span class="price">¥8,000</span>
           </div>
         </div>
@@ -433,9 +499,13 @@
       <div class="activity-card fade-in" style="animation-delay: 0.7s">
         <img src="https://placehold.co/400x300/8B008B/FFFFFF?text=Parasailing" alt="Parasailing" class="w-full h-56 object-cover">
         <div class="card-content">
-          <h2 class="activity-title">Parasailing</h2>
+          <h2 class="activity-title en-text">Parasailing</h2>
+          <h2 class="activity-title jp-text">パラセーリング</h2>
+          <p class="activity-desc en-text">Soar above the ocean while being towed by a boat, enjoying breathtaking views.</p>
+          <p class="activity-desc jp-text">船に牽引されながら海の上を舞い上がり、息をのむような景色をお楽しみください。</p>
           <div class="flex justify-between items-center">
-            <span class="duration">Duration: 50min</span>
+            <span class="duration en-text">Duration: 50min</span>
+            <span class="duration jp-text">所要時間: 50分</span>
             <span class="price">¥9,000</span>
           </div>
         </div>
@@ -445,9 +515,13 @@
       <div class="activity-card fade-in" style="animation-delay: 0.8s">
         <img src="https://placehold.co/400x300/228B22/FFFFFF?text=Fishing+Experience" alt="Fishing Experience" class="w-full h-56 object-cover">
         <div class="card-content">
-          <h2 class="activity-title">Fishing Experience</h2>
+          <h2 class="activity-title en-text">Fishing Experience</h2>
+          <h2 class="activity-title jp-text">フィッシング体験</h2>
+          <p class="activity-desc en-text">Enjoy a relaxing fishing experience with our expert guides in Okinawa's beautiful waters.</p>
+          <p class="activity-desc jp-text">沖縄の美しい水域で、専門のガイドと一緒にリラックスした釣り体験をお楽しみください。</p>
           <div class="flex justify-between items-center">
-            <span class="duration">Duration: 3 hours+</span>
+            <span class="duration en-text">Duration: 3 hours+</span>
+            <span class="duration jp-text">所要時間: 3時間以上</span>
             <span class="price">¥7,000</span>
           </div>
         </div>
@@ -457,22 +531,29 @@
       <div class="activity-card fade-in" style="animation-delay: 0.9s">
         <img src="https://placehold.co/400x300/FF69B4/FFFFFF?text=Fireworks+Cruise" alt="Fireworks Night View Cruise" class="w-full h-56 object-cover">
         <div class="card-content">
-          <h2 class="activity-title">Fireworks Night View Cruise</h2>
+          <h2 class="activity-title en-text">Fireworks Night View Cruise</h2>
+          <h2 class="activity-title jp-text">花火ナイトビュークルーズ</h2>
+          <p class="activity-desc en-text">Experience the magic of fireworks from the water on our special night cruise.</p>
+          <p class="activity-desc jp-text">特別なナイトクルーズで、水上から花火の魔法を体験してください。</p>
           <div class="flex justify-between items-center">
-            <span class="duration">Duration: 30min</span>
+            <span class="duration en-text">Duration: 30min</span>
+            <span class="duration jp-text">所要時間: 30分</span>
             <span class="price">¥4,800</span>
           </div>
         </div>
       </div>
 
-      <!-- Activity 10 -->
-      <div class="activity-card fade-in" style="animation-delay: 1.0s">
+      <!-- Activity 10 - Centered -->
+      <div class="activity-card fade-in last-activity" style="animation-delay: 1.0s">
         <img src="https://placehold.co/400x300/4B0082/FFFFFF?text=Diving+%26+Snorkeling" alt="Diving & Snorkeling" class="w-full h-56 object-cover">
         <div class="card-content">
-          <h2 class="activity-title">Diving & Snorkeling</h2>
-          <p class="activity-subtitle">Half Day</p>
+          <h2 class="activity-title en-text">Diving & Snorkeling</h2>
+          <h2 class="activity-title jp-text">ダイビング＆スノーケリング</h2>
+          <p class="activity-desc en-text">Explore the vibrant underwater world of Okinawa with our diving and snorkeling tours.</p>
+          <p class="activity-desc jp-text">ダイビングとスノーケリングツアーで、沖縄の鮮やかな水中世界を探検しましょう。</p>
           <div class="flex justify-between items-center">
-            <span class="duration">Duration: -</span>
+            <span class="duration en-text">Duration: -</span>
+            <span class="duration jp-text">所要時間: -</span>
             <span class="price">¥7,000</span>
           </div>
         </div>
@@ -483,9 +564,13 @@
   <!-- Instagram Section -->
   <section class="bg-white/15 backdrop-blur-lg py-20">
     <div class="max-w-5xl mx-auto text-center px-4">
-      <h2 class="text-5xl font-bold mb-8 text-white drop-shadow-2xl">Follow Our Adventures</h2>
-      <p class="text-2xl text-white/95 mb-12 drop-shadow">
+      <h2 class="text-5xl font-bold mb-8 text-white drop-shadow-2xl en-text">Follow Our Adventures</h2>
+      <h2 class="text-5xl font-bold mb-8 text-white drop-shadow-2xl jp-text">私たちのアドベンチャーをフォロー</h2>
+      <p class="text-2xl text-white/95 mb-12 drop-shadow en-text">
         See real moments from our guests on Instagram
+      </p>
+      <p class="text-2xl text-white/95 mb-12 drop-shadow jp-text">
+        Instagramでお客様のリアルな瞬間をご覧ください
       </p>
       <!-- Fixed: Removed extra spaces in the href attribute -->
       <a href="https://www.instagram.com/seapark__chattan/" target="_blank" class="inline-flex items-center bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white px-10 py-5 rounded-full hover:from-purple-600 hover:via-pink-600 hover:to-red-600 transition-all duration-300 text-xl font-bold shadow-2xl hover:shadow-3xl transform hover:scale-105 pulse">
@@ -505,14 +590,18 @@
           <!-- Fixed: Corrected image URL, removed extra spaces, and added proper class -->
           <img src="https://i.imgur.com/G2aRZc4.jpg" alt="Seapark Chatan Logo" class="logo mr-4">
           <div>
-            <h3 class="text-2xl font-bold">SEAPARK CHATAN</h3>
-            <p class="text-lg">水上アスレチック</p>
+            <h3 class="text-2xl font-bold en-text">SEAPARK CHATAN</h3>
+            <h3 class="text-2xl font-bold jp-text">シーパーク茶屋</h3>
+            <p class="text-lg en-text">水上アスレチック</p>
+            <p class="text-lg jp-text">Water Activities</p>
           </div>
         </div>
-        <p class="text-lg">© 2023 Seapark Chatan. All rights reserved.</p>
+        <p class="text-lg en-text">© 2023 Seapark Chatan. All rights reserved.</p>
+        <p class="text-lg jp-text">© 2023 シーパーク茶屋. All rights reserved.</p>
       </div>
       <div class="flex flex-col items-center md:items-end">
-        <p class="text-lg mb-4">Connect with us on social media</p>
+        <p class="text-lg mb-4 en-text">Connect with us on social media</p>
+        <p class="text-lg mb-4 jp-text">ソーシャルメディアでつながる</p>
         <div class="flex space-x-8">
           <!-- Fixed: Removed extra spaces in the href attribute -->
           <a href="https://www.instagram.com/seapark__chattan/" target="_blank" class="text-white hover:text-pink-300 transition-colors duration-300 transform hover:scale-110">
@@ -529,37 +618,37 @@
   <div class="booking-modal" id="bookingModal">
     <div class="booking-form">
       <div class="form-header">
-        <h2 id="formTitle">Book Your Adventure</h2>
+        <h2 id="formTitle" class="en-text">Book Your Adventure</h2>
+        <h2 id="formTitle" class="jp-text">アドベンチャーを予約</h2>
         <button class="close-button" id="closeModal">&times;</button>
-      </div>
-      
-      <div class="language-toggle">
-        <button id="englishBtn" class="active">English</button>
-        <button id="japaneseBtn">日本語</button>
       </div>
       
       <form id="bookingForm">
         <div class="form-group">
-          <label for="name" id="nameLabel">Full Name</label>
+          <label for="name" id="nameLabel" class="en-text">Full Name</label>
+          <label for="name" id="nameLabel" class="jp-text">氏名</label>
           <input type="text" id="name" name="name" required>
         </div>
         
         <div class="form-group">
-          <label for="phone" id="phoneLabel">Phone Number</label>
+          <label for="phone" id="phoneLabel" class="en-text">Phone Number</label>
+          <label for="phone" id="phoneLabel" class="jp-text">電話番号</label>
           <input type="tel" id="phone" name="phone" required>
         </div>
         
         <div class="form-group">
-          <label for="email" id="emailLabel">Email Address (Optional)</label>
+          <label for="email" id="emailLabel" class="en-text">Email Address (Optional)</label>
+          <label for="email" id="emailLabel" class="jp-text">メールアドレス (任意)</label>
           <input type="email" id="email" name="email">
         </div>
         
         <div class="form-group">
-          <label for="activity" id="activityLabel">Select Activity</label>
+          <label for="activity" id="activityLabel" class="en-text">Select Activity</label>
+          <label for="activity" id="activityLabel" class="jp-text">アクティビティを選択</label>
           <select id="activity" name="activity" required>
             <option value="">-- Select an Activity --</option>
             <option value="Floating Obstacle Course">Floating Obstacle Course</option>
-            <option value="Jet Ski & Marine Package">Jet Ski & Marine Package (3 Items)</option>
+            <option value="Jet Ski & Marine Package">Jet Ski & Marine Package</option>
             <option value="Flyboard">Flyboard</option>
             <option value="Spinning Tube">Spinning Tube</option>
             <option value="Wakeboarding">Wakeboarding</option>
@@ -572,7 +661,8 @@
         </div>
         
         <div class="form-group">
-          <label for="time" id="timeLabel">Select Time (by hour)</label>
+          <label for="time" id="timeLabel" class="en-text">Select Time (by hour)</label>
+          <label for="time" id="timeLabel" class="jp-text">時間 (時単位)</label>
           <select id="time" name="time" required>
             <option value="">-- Select a Time --</option>
             <option value="9:00">9:00 AM</option>
@@ -588,11 +678,15 @@
         </div>
         
         <div class="form-group">
-          <label for="notes" id="notesLabel">Additional Notes (Optional)</label>
+          <label for="notes" id="notesLabel" class="en-text">Additional Notes (Optional)</label>
+          <label for="notes" id="notesLabel" class="jp-text">追加のメモ (任意)</label>
           <textarea id="notes" name="notes" rows="3"></textarea>
         </div>
         
-        <button type="submit" class="submit-button" id="submitBtn">Submit Booking</button>
+        <button type="submit" class="submit-button" id="submitBtn">
+          <span class="en-text">Submit Booking</span>
+          <span class="jp-text">予約を送信</span>
+        </button>
       </form>
     </div>
   </div>
@@ -644,18 +738,16 @@
       
       // Booking form functionality
       const modal = document.getElementById('bookingModal');
-      const openButtons = document.querySelectorAll('#openBookingForm, #openBookingForm2');
+      const openBookingForm = document.getElementById('openBookingForm');
       const closeBtn = document.getElementById('closeModal');
       const form = document.getElementById('bookingForm');
       const englishBtn = document.getElementById('englishBtn');
       const japaneseBtn = document.getElementById('japaneseBtn');
       
       // Open modal
-      openButtons.forEach(button => {
-        button.addEventListener('click', () => {
-          modal.style.display = 'flex';
-          document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
-        });
+      openBookingForm.addEventListener('click', () => {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
       });
       
       // Close modal
@@ -674,27 +766,31 @@
       
       // Language toggle
       function setEnglish() {
-        document.getElementById('formTitle').textContent = 'Book Your Adventure';
-        document.getElementById('nameLabel').textContent = 'Full Name';
-        document.getElementById('phoneLabel').textContent = 'Phone Number';
-        document.getElementById('emailLabel').textContent = 'Email Address (Optional)';
-        document.getElementById('activityLabel').textContent = 'Select Activity';
-        document.getElementById('timeLabel').textContent = 'Select Time (by hour)';
-        document.getElementById('notesLabel').textContent = 'Additional Notes (Optional)';
-        document.getElementById('submitBtn').textContent = 'Submit Booking';
+        // Hide all Japanese text
+        document.querySelectorAll('.jp-text').forEach(el => {
+          el.style.display = 'none';
+        });
+        
+        // Show all English text
+        document.querySelectorAll('.en-text').forEach(el => {
+          el.style.display = 'block';
+        });
+        
         englishBtn.classList.add('active');
         japaneseBtn.classList.remove('active');
       }
       
       function setJapanese() {
-        document.getElementById('formTitle').textContent = 'アドベンチャーを予約';
-        document.getElementById('nameLabel').textContent = '氏名';
-        document.getElementById('phoneLabel').textContent = '電話番号';
-        document.getElementById('emailLabel').textContent = 'メールアドレス (任意)';
-        document.getElementById('activityLabel').textContent = 'アクティビティを選択';
-        document.getElementById('timeLabel').textContent = '時間 (時単位)';
-        document.getElementById('notesLabel').textContent = '追加のメモ (任意)';
-        document.getElementById('submitBtn').textContent = '予約を送信';
+        // Hide all English text
+        document.querySelectorAll('.en-text').forEach(el => {
+          el.style.display = 'none';
+        });
+        
+        // Show all Japanese text
+        document.querySelectorAll('.jp-text').forEach(el => {
+          el.style.display = 'block';
+        });
+        
         japaneseBtn.classList.add('active');
         englishBtn.classList.remove('active');
       }
@@ -711,12 +807,33 @@
         const data = Object.fromEntries(formData);
         
         // Show confirmation (in a real app, this would be a server response)
-        alert('Thank you for your booking! We will contact you shortly to confirm your reservation.');
+        alert(document.querySelector('.jp-text').style.display === 'block' ? 
+          'ご予約ありがとうございます！予約を確認次第、すぐにご連絡いたします。' : 
+          'Thank you for your booking! We will contact you shortly to confirm your reservation.');
         
         // Reset and close form
         form.reset();
         modal.style.display = 'none';
         document.body.style.overflow = '';
+      });
+      
+      // Explore Activities button scrolls to activities
+      document.getElementById('exploreActivities').addEventListener('click', function(e) {
+        e.preventDefault();
+        const activitiesSection = document.querySelector('.main-content');
+        if (!activitiesSection) {
+          // If main-content class doesn't exist, scroll to the first activity card
+          const firstActivity = document.querySelector('.activity-card');
+          if (firstActivity) {
+            firstActivity.scrollIntoView({
+              behavior: 'smooth'
+            });
+          }
+        } else {
+          activitiesSection.scrollIntoView({
+            behavior: 'smooth'
+          });
+        }
       });
     });
   </script>
