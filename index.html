@@ -175,6 +175,139 @@
         font-size: 1rem;
       }
     }
+    
+    /* Fixed: Added specific styling for activity 2 image to resize it properly */
+    .activity-2-img {
+      height: 224px !important; /* Reduced from 256px to make it smaller */
+      object-fit: cover;
+    }
+    
+    /* Booking Form Styles */
+    .booking-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .booking-form {
+      background-color: white;
+      border-radius: 15px;
+      padding: 30px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    
+    .form-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #4A90E2;
+    }
+    
+    .close-button {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #666;
+      transition: color 0.3s ease;
+    }
+    
+    .close-button:hover {
+      color: #D90000;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #00416A;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #E4E5E6;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #4A90E2;
+    }
+    
+    .submit-button {
+      background: linear-gradient(45deg, #4A90E2, #00416A);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+    
+    .submit-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      background: linear-gradient(45deg, #5A9EE3, #00527B);
+    }
+    
+    .language-toggle {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      background: #f0f0f0;
+      border-radius: 25px;
+      padding: 5px;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .language-toggle button {
+      background: none;
+      border: none;
+      padding: 8px 15px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+    }
+    
+    .language-toggle button.active {
+      background: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .japanese-text {
+      display: none;
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -190,7 +323,7 @@
         </div>
       </div>
       <div>
-        <button class="book-button floating">
+        <button class="book-button floating" id="openBookingForm">
           Book Now
         </button>
       </div>
@@ -202,7 +335,7 @@
     <div class="max-w-5xl mx-auto px-4">
       <h1 class="text-7xl font-bold mb-6 drop-shadow-2xl">ADVENTURE AWAITS</h1>
       <p class="text-2xl mb-10 drop-shadow-xl">Experience the ultimate water activities in Okinawa</p>
-      <button class="book-button text-xl floating">
+      <button class="book-button text-xl floating" id="openBookingForm2">
         Explore Activities
       </button>
     </div>
@@ -235,8 +368,8 @@
 
       <!-- Activity 2 -->
       <div class="activity-card fade-in" style="animation-delay: 0.2s">
-        <!-- Fixed: Changed to direct image URL from Imgur -->
-        <img src="https://i.imgur.com/jgbBvxx.jpg" alt="Jet Ski & Marine Package" class="w-full h-54 object-cover">
+        <!-- Fixed: Added specific class to resize the image -->
+        <img src="https://i.imgur.com/jgbBvxx.jpg" alt="Jet Ski & Marine Package" class="w-full h-56 activity-2-img object-cover">
         <div class="card-content">
           <h2 class="activity-title">Jet Ski & Marine Package (3 Items)</h2>
           <p class="activity-subtitle">3 Tube Rides Package</p>
@@ -392,6 +525,78 @@
     </div>
   </footer>
 
+  <!-- Booking Modal -->
+  <div class="booking-modal" id="bookingModal">
+    <div class="booking-form">
+      <div class="form-header">
+        <h2 id="formTitle">Book Your Adventure</h2>
+        <button class="close-button" id="closeModal">&times;</button>
+      </div>
+      
+      <div class="language-toggle">
+        <button id="englishBtn" class="active">English</button>
+        <button id="japaneseBtn">日本語</button>
+      </div>
+      
+      <form id="bookingForm">
+        <div class="form-group">
+          <label for="name" id="nameLabel">Full Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="phone" id="phoneLabel">Phone Number</label>
+          <input type="tel" id="phone" name="phone" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="email" id="emailLabel">Email Address (Optional)</label>
+          <input type="email" id="email" name="email">
+        </div>
+        
+        <div class="form-group">
+          <label for="activity" id="activityLabel">Select Activity</label>
+          <select id="activity" name="activity" required>
+            <option value="">-- Select an Activity --</option>
+            <option value="Floating Obstacle Course">Floating Obstacle Course</option>
+            <option value="Jet Ski & Marine Package">Jet Ski & Marine Package (3 Items)</option>
+            <option value="Flyboard">Flyboard</option>
+            <option value="Spinning Tube">Spinning Tube</option>
+            <option value="Wakeboarding">Wakeboarding</option>
+            <option value="Sunset Stand-Up Paddleboarding">Sunset Stand-Up Paddleboarding</option>
+            <option value="Parasailing">Parasailing</option>
+            <option value="Fishing Experience">Fishing Experience</option>
+            <option value="Fireworks Night View Cruise">Fireworks Night View Cruise</option>
+            <option value="Diving & Snorkeling">Diving & Snorkeling</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="time" id="timeLabel">Select Time (by hour)</label>
+          <select id="time" name="time" required>
+            <option value="">-- Select a Time --</option>
+            <option value="9:00">9:00 AM</option>
+            <option value="10:00">10:00 AM</option>
+            <option value="11:00">11:00 AM</option>
+            <option value="12:00">12:00 PM</option>
+            <option value="13:00">1:00 PM</option>
+            <option value="14:00">2:00 PM</option>
+            <option value="15:00">3:00 PM</option>
+            <option value="16:00">4:00 PM</option>
+            <option value="17:00">5:00 PM</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="notes" id="notesLabel">Additional Notes (Optional)</label>
+          <textarea id="notes" name="notes" rows="3"></textarea>
+        </div>
+        
+        <button type="submit" class="submit-button" id="submitBtn">Submit Booking</button>
+      </form>
+    </div>
+  </div>
+
   <script>
     // Fixed: Added error handling for DOM elements that might not exist
     document.addEventListener('DOMContentLoaded', function() {
@@ -436,6 +641,83 @@
       } catch (error) {
         console.warn('Parallax effect not available:', error);
       }
+      
+      // Booking form functionality
+      const modal = document.getElementById('bookingModal');
+      const openButtons = document.querySelectorAll('#openBookingForm, #openBookingForm2');
+      const closeBtn = document.getElementById('closeModal');
+      const form = document.getElementById('bookingForm');
+      const englishBtn = document.getElementById('englishBtn');
+      const japaneseBtn = document.getElementById('japaneseBtn');
+      
+      // Open modal
+      openButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          modal.style.display = 'flex';
+          document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+        });
+      });
+      
+      // Close modal
+      closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+        document.body.style.overflow = ''; // Restore scrolling
+      });
+      
+      // Close modal when clicking outside
+      window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+          document.body.style.overflow = '';
+        }
+      });
+      
+      // Language toggle
+      function setEnglish() {
+        document.getElementById('formTitle').textContent = 'Book Your Adventure';
+        document.getElementById('nameLabel').textContent = 'Full Name';
+        document.getElementById('phoneLabel').textContent = 'Phone Number';
+        document.getElementById('emailLabel').textContent = 'Email Address (Optional)';
+        document.getElementById('activityLabel').textContent = 'Select Activity';
+        document.getElementById('timeLabel').textContent = 'Select Time (by hour)';
+        document.getElementById('notesLabel').textContent = 'Additional Notes (Optional)';
+        document.getElementById('submitBtn').textContent = 'Submit Booking';
+        englishBtn.classList.add('active');
+        japaneseBtn.classList.remove('active');
+      }
+      
+      function setJapanese() {
+        document.getElementById('formTitle').textContent = 'アドベンチャーを予約';
+        document.getElementById('nameLabel').textContent = '氏名';
+        document.getElementById('phoneLabel').textContent = '電話番号';
+        document.getElementById('emailLabel').textContent = 'メールアドレス (任意)';
+        document.getElementById('activityLabel').textContent = 'アクティビティを選択';
+        document.getElementById('timeLabel').textContent = '時間 (時単位)';
+        document.getElementById('notesLabel').textContent = '追加のメモ (任意)';
+        document.getElementById('submitBtn').textContent = '予約を送信';
+        japaneseBtn.classList.add('active');
+        englishBtn.classList.remove('active');
+      }
+      
+      englishBtn.addEventListener('click', setEnglish);
+      japaneseBtn.addEventListener('click', setJapanese);
+      
+      // Form submission
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // In a real application, you would send this data to a server
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData);
+        
+        // Show confirmation (in a real app, this would be a server response)
+        alert('Thank you for your booking! We will contact you shortly to confirm your reservation.');
+        
+        // Reset and close form
+        form.reset();
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+      });
     });
   </script>
 </body>
