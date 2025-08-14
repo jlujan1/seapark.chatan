@@ -40,7 +40,7 @@
       },
       ja: {
         title: "シーパーク茶屋",
-        subtitle: "水上アスレチック",
+        subtitle: "ウォーターアクティビティ",
         heroTitle: "冒険が待っています",
         heroDesc: "沖縄で究極の水上アクティビティを体験してください",
         exploreBtn: "アクティビティを確認",
@@ -129,7 +129,7 @@
     .activity-img {
       object-fit: cover;
       object-position: center;
-      height: 224px; /* 56 * 4 = 224px */
+      height: 224px;
       width: 100%;
     }
     /* Center modal */
@@ -149,7 +149,7 @@
         <div class="ml-6 text-white">
           <h1 id="header-title" class="text-5xl font-bold drop-shadow-lg">SEAPARK CHATAN</h1>
           <p id="header-subtitle-en" class="text-xl drop-shadow en-text">水上アスレチック</p>
-          <p id="header-subtitle-jp" class="text-xl drop-shadow jp-text">Water Activities</p>
+          <p id="header-subtitle-jp" class="text-xl drop-shadow jp-text">ウォーターアクティビティ</p>
         </div>
       </div>
 
@@ -545,8 +545,31 @@
           document.body.style.overflow = '';
         }
       });
+
+      // Form Submit
       form.addEventListener('submit', function (e) {
         e.preventDefault();
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        // Create email body
+        const subject = `New Booking from SEAPARK CHATAN`;
+        const body = `
+          New Booking Request:
+          Name: ${data['name'] || 'N/A'}
+          Phone: ${data['phone'] || 'N/A'}
+          Email: ${data['email'] || 'N/A'}
+          Activity: ${data['activity'] || 'N/A'}
+          Time: ${data['time'] || 'N/A'}
+          Notes: ${data['notes'] || 'N/A'}
+          Submitted on: ${new Date().toLocaleString()}
+        `.trim();
+
+        // Send email via mailto
+        const mailtoLink = `mailto:connect@chatan-information-center.co.jp?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = mailtoLink;
+
+        // Show thank you
         alert(LANG[currentLang].thankYou);
         form.reset();
         modal.classList.add('hidden');
