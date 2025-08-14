@@ -14,7 +14,6 @@
 
   <!-- Tailwind Config + Multi-Language JSON -->
   <script>
-    // Multi-language content
     const LANG = {
       en: {
         title: "SEAPARK CHATAN",
@@ -64,7 +63,6 @@
       }
     };
 
-    // Tailwind Configuration
     tailwind.config = {
       darkMode: 'class',
       theme: {
@@ -73,26 +71,32 @@
         },
         extend: {
           backgroundImage: {
-            'hero': 'linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("https://placehold.co/1920x600/00416A/FFFFFF?text=Seapark+Chatan+Water+Activities")'
+            'hero': 'linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("https://placehold.co/1920x600/00416A/FFFFFF?text=Seapark+Chatan+Water+Activities")',
+            'gradient': 'linear-gradient(135deg, #00416A, #E4E5E6, #4A90E2, #50C878, #FFD700)'
           },
           animation: {
             'fade-in': 'fadeIn 0.8s ease-in',
             'floating': 'floating 6s ease-in-out infinite',
-            'pulse': 'pulse 2s infinite'
+            'pulse': 'pulse 2s infinite',
+            'slide-up': 'slideUp 0.6s ease-out'
           },
           keyframes: {
             fadeIn: {
-              '0%': { opacity: 0, transform: 'translateY(30px)' },
+              '0%': { opacity: 0, transform: 'translateY(40px)' },
               '100%': { opacity: 1, transform: 'translateY(0)' }
             },
             floating: {
               '0%, 100%': { transform: 'translateY(0)' },
-              '50%': { transform: 'translateY(-10px)' }
+              '50%': { transform: 'translateY(-12px)' }
             },
             pulse: {
               '0%': { transform: 'scale(1)' },
-              '50%': { transform: 'scale(1.05)' },
+              '50%': { transform: 'scale(1.03)' },
               '100%': { transform: 'scale(1)' }
+            },
+            slideUp: {
+              '0%': { opacity: 0, transform: 'translateY(30px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)' }
             }
           }
         }
@@ -102,7 +106,8 @@
         'from-gray-600', 'to-gray-700', 'hover:from-blue-600', 'hover:to-indigo-800',
         'drop-shadow', 'drop-shadow-lg', 'drop-shadow-2xl', 'text-5xl', 'text-7xl', 'text-2xl',
         'backdrop-blur-xl', 'backdrop-blur-lg', 'bg-white/20', 'bg-white/95', 'border-white/30',
-        'grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-3'
+        'grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-3', 'animate-fade-in', 'animate-floating',
+        'animate-pulse', 'animate-slide-up'
       ]
     };
   </script>
@@ -128,9 +133,10 @@
       border: 4px solid white;
       box-shadow: 0 8px 25px rgba(0,0,0,0.3);
       transition: all 0.3s ease;
+      object-fit: cover;
     }
     .logo:hover {
-      transform: scale(1.05);
+      transform: scale(1.05) rotate(5deg);
       box-shadow: 0 12px 30px rgba(0,0,0,0.4);
     }
     .hero {
@@ -153,13 +159,23 @@
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     .activity-card:hover {
-      transform: translateY(-10px) scale(1.02);
+      transform: translateY(-15px) scale(1.03);
       box-shadow: 0 25px 50px rgba(0,0,0,0.25);
     }
     .jp-text { display: none; }
+    .btn-hover {
+      transition: all 0.3s ease;
+    }
+    .btn-hover:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .pulse-once {
+      animation: pulse 0.6s ease-in-out;
+    }
   </style>
 </head>
-<body class="min-h-screen flex flex-col bg-gray-50">
+<body class="min-h-screen flex flex-col bg-gray-50 transition-colors duration-300">
 
   <!-- Header -->
   <header class="bg-white/20 backdrop-blur-xl p-6 w-full sticky top-0 z-50">
@@ -177,7 +193,7 @@
           <button id="englishBtn" class="px-5 py-2 rounded-full font-semibold text-white bg-gradient-to-r from-blue-600 to-indigo-700">English</button>
           <button id="japaneseBtn" class="px-5 py-2 rounded-full font-semibold text-white bg-gradient-to-r from-gray-600 to-gray-700">日本語</button>
         </div>
-        <button id="openBookingForm" class="book-button bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold px-8 py-3 rounded-full shadow-lg transform hover:scale-105 transition duration-300 pulse">
+        <button id="openBookingForm" class="book-button bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold px-8 py-3 rounded-full shadow-lg transform hover:scale-105 transition duration-300 pulse btn-hover">
           <span id="bookNowText">Book Now</span>
         </button>
       </div>
@@ -187,19 +203,19 @@
   <!-- Hero Section -->
   <section class="hero">
     <div class="max-w-4xl mx-auto">
-      <h1 id="heroTitle" class="text-5xl sm:text-6xl font-bold mb-6 drop-shadow-2xl text-white">ADVENTURE AWAITS</h1>
-      <p id="heroDesc" class="text-xl sm:text-2xl mb-8 drop-shadow-xl text-white">Experience the ultimate water activities in Okinawa</p>
-      <button id="exploreActivities" class="explore-button bg-gradient-to-r from-blue-500 to-indigo-700 hover:from-blue-600 hover:to-indigo-800 text-white font-bold px-10 py-4 rounded-full shadow-lg transform hover:scale-105 transition duration-300 text-lg floating">
+      <h1 id="heroTitle" class="text-5xl sm:text-6xl font-bold mb-6 drop-shadow-2xl text-white animate-fade-in">ADVENTURE AWAITS</h1>
+      <p id="heroDesc" class="text-xl sm:text-2xl mb-8 drop-shadow-xl text-white animate-fade-in" style="animation-delay: 0.3s">Experience the ultimate water activities in Okinawa</p>
+      <button id="exploreActivities" class="explore-button bg-gradient-to-r from-blue-500 to-indigo-700 hover:from-blue-600 hover:to-indigo-800 text-white font-bold px-10 py-4 rounded-full shadow-lg transform hover:scale-105 transition duration-300 text-lg animate-floating btn-hover" style="animation-delay: 0.6s">
         <span id="exploreBtnText">Explore Activities</span>
       </button>
     </div>
   </section>
 
   <!-- Main Content -->
-  <main class="flex-grow w-full max-w-7xl mx-auto px-4 py-16">
+  <main class="flex-grow w-full max-w-7xl mx-auto px-4 py-16" id="activitiesSection">
     <div class="text-center mb-12">
-      <h2 id="adventuresTitle" class="text-4xl sm:text-5xl font-bold text-white drop-shadow-2xl mb-6">Our Water Adventures</h2>
-      <p id="discoverText" class="text-lg sm:text-xl text-white/90 max-w-3xl mx-auto drop-shadow">
+      <h2 id="adventuresTitle" class="text-4xl sm:text-5xl font-bold text-white drop-shadow-2xl mb-6 animate-slide-up">Our Water Adventures</h2>
+      <p id="discoverText" class="text-lg sm:text-xl text-white/90 max-w-3xl mx-auto drop-shadow animate-slide-up" style="animation-delay: 0.2s">
         Discover a world of aquatic excitement with our premium water activities.
       </p>
     </div>
@@ -207,7 +223,7 @@
     <!-- Activity Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <!-- Activity 1 -->
-      <div class="activity-card bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-white/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4 fade-in" style="animation-delay: 0.1s">
+      <div class="activity-card bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-white/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4 animate-fade-in" style="animation-delay: 0.1s">
         <img src="https://placehold.co/400x300/00416A/FFFFFF?text=Floating+Obstacle+Course" alt="Floating Obstacle Course" class="w-full h-56 object-cover" />
         <div class="p-6">
           <h2 class="activity-title text-2xl font-bold text-blue-900">Floating Obstacle Course</h2>
@@ -220,7 +236,7 @@
       </div>
 
       <!-- Activity 2 -->
-      <div class="activity-card bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-white/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4 fade-in" style="animation-delay: 0.2s">
+      <div class="activity-card bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-white/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4 animate-fade-in" style="animation-delay: 0.2s">
         <img src="https://i.imgur.com/jgbBvxx.jpg" alt="Jet Ski & Marine Package" class="w-full h-56 object-cover" />
         <div class="p-6">
           <h2 class="activity-title text-2xl font-bold text-blue-900">Jet Ski & Marine Package</h2>
@@ -233,7 +249,7 @@
       </div>
 
       <!-- Activity 3 -->
-      <div class="activity-card bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-white/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4 fade-in" style="animation-delay: 0.3s">
+      <div class="activity-card bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-white/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4 animate-fade-in" style="animation-delay: 0.3s">
         <img src="https://i.imgur.com/KEhV5y9.jpg" alt="Flyboard" class="w-full h-56 object-cover" />
         <div class="p-6">
           <h2 class="activity-title text-2xl font-bold text-blue-900">Flyboard</h2>
@@ -246,7 +262,7 @@
       </div>
 
       <!-- Activity 4 -->
-      <div class="activity-card bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-white/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4 fade-in" style="animation-delay: 0.4s">
+      <div class="activity-card bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-white/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4 animate-fade-in" style="animation-delay: 0.4s">
         <img src="https://placehold.co/400x300/50C878/FFFFFF?text=Spinning+Tube" alt="Spinning Tube" class="w-full h-56 object-cover" />
         <div class="p-6">
           <h2 class="activity-title text-2xl font-bold text-blue-900">Spinning Tube</h2>
@@ -258,9 +274,9 @@
         </div>
       </div>
 
-      <!-- Activity 5 -->
-      <div class="activity-card bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-white/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4 fade-in" style="animation-delay: 0.5s">
-        <img src="https://placehold.co/400x300/FFD700/00416A?text=Wakeboarding" alt="Wakeboarding" class="w-full h-56 object-cover" />
+      <!-- Activity 5 - Wakeboarding -->
+      <div class="activity-card bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-white/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4 animate-fade-in" style="animation-delay: 0.5s">
+        <img src="https://i.imgur.com/Ab2A35z.jpg" alt="Wakeboarding" class="w-full h-56 object-cover" />
         <div class="p-6">
           <h2 class="activity-title text-2xl font-bold text-blue-900">Wakeboarding</h2>
           <p class="activity-desc text-gray-600 mt-2">Ride the waves behind our boat and perform tricks on your wakeboard.</p>
@@ -271,9 +287,9 @@
         </div>
       </div>
 
-      <!-- Activity 6 -->
-      <div class="activity-card bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-white/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4 fade-in" style="animation-delay: 0.6s">
-        <img src="https://placehold.co/400x300/D90000/FFFFFF?text=Sunset+SUP" alt="Sunset Stand-Up Paddleboarding" class="w-full h-56 object-cover" />
+      <!-- Activity 6 - Sunset SUP -->
+      <div class="activity-card bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-white/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4 animate-fade-in" style="animation-delay: 0.6s">
+        <img src="https://i.imgur.com/Hjwz5lk.jpg" alt="Sunset Stand-Up Paddleboarding" class="w-full h-56 object-cover" />
         <div class="p-6">
           <h2 class="activity-title text-2xl font-bold text-blue-900">Sunset Stand-Up Paddleboarding</h2>
           <p class="activity-desc text-gray-600 mt-2">Glide peacefully across the water during the magical sunset hours on a paddleboard.</p>
@@ -284,9 +300,9 @@
         </div>
       </div>
 
-      <!-- Activity 7 -->
-      <div class="activity-card bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-white/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4 fade-in" style="animation-delay: 0.7s">
-        <img src="https://placehold.co/400x300/8B008B/FFFFFF?text=Parasailing" alt="Parasailing" class="w-full h-56 object-cover" />
+      <!-- Activity 7 - Parasailing -->
+      <div class="activity-card bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-white/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4 animate-fade-in" style="animation-delay: 0.7s">
+        <img src="https://i.imgur.com/yZjetLI.jpg" alt="Parasailing" class="w-full h-56 object-cover" />
         <div class="p-6">
           <h2 class="activity-title text-2xl font-bold text-blue-900">Parasailing</h2>
           <p class="activity-desc text-gray-600 mt-2">Soar above the ocean while being towed by a boat, enjoying breathtaking views.</p>
@@ -298,7 +314,7 @@
       </div>
 
       <!-- Activity 8 -->
-      <div class="activity-card bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-white/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4 fade-in" style="animation-delay: 0.8s">
+      <div class="activity-card bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-white/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4 animate-fade-in" style="animation-delay: 0.8s">
         <img src="https://placehold.co/400x300/228B22/FFFFFF?text=Fishing+Experience" alt="Fishing Experience" class="w-full h-56 object-cover" />
         <div class="p-6">
           <h2 class="activity-title text-2xl font-bold text-blue-900">Fishing Experience</h2>
@@ -311,7 +327,7 @@
       </div>
 
       <!-- Activity 9 -->
-      <div class="activity-card bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-white/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4 fade-in" style="animation-delay: 0.9s">
+      <div class="activity-card bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-white/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4 animate-fade-in" style="animation-delay: 0.9s">
         <img src="https://placehold.co/400x300/FF69B4/FFFFFF?text=Fireworks+Cruise" alt="Fireworks Night View Cruise" class="w-full h-56 object-cover" />
         <div class="p-6">
           <h2 class="activity-title text-2xl font-bold text-blue-900">Fireworks Night View Cruise</h2>
@@ -324,7 +340,7 @@
       </div>
 
       <!-- Activity 10 - Centered -->
-      <div class="activity-card bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-white/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4 fade-in last-activity mx-auto max-w-xs"
+      <div class="activity-card bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-white/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4 animate-fade-in last-activity mx-auto max-w-xs"
            style="animation-delay: 1.0s; grid-column: 1 / -1;">
         <img src="https://placehold.co/400x300/4B0082/FFFFFF?text=Diving+%26+Snorkeling" alt="Diving & Snorkeling" class="w-full h-56 object-cover" />
         <div class="p-6">
@@ -342,9 +358,9 @@
   <!-- Instagram Section -->
   <section class="bg-white/15 backdrop-blur-lg py-16 text-center">
     <div class="max-w-5xl mx-auto px-4">
-      <h2 id="followTitle" class="text-4xl font-bold text-white mb-6">Follow Our Adventures</h2>
-      <p id="instagramText" class="text-xl text-white/95 mb-12">See real moments from our guests on Instagram</p>
-      <a href="https://www.instagram.com/seapark__chattan/" target="_blank" class="inline-flex items-center bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white px-10 py-5 rounded-full hover:from-purple-600 hover:via-pink-600 hover:to-red-600 transition-all duration-300 text-xl font-bold shadow-2xl hover:shadow-3xl transform hover:scale-105 pulse">
+      <h2 id="followTitle" class="text-4xl font-bold text-white mb-6 animate-slide-up">Follow Our Adventures</h2>
+      <p id="instagramText" class="text-xl text-white/95 mb-12 animate-slide-up" style="animation-delay: 0.2s">See real moments from our guests on Instagram</p>
+      <a href="https://www.instagram.com/seapark__chattan/" target="_blank" class="inline-flex items-center bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white px-10 py-5 rounded-full hover:from-purple-600 hover:via-pink-600 hover:to-red-600 transition-all duration-300 text-xl font-bold shadow-2xl hover:shadow-3xl transform hover:scale-105 pulse btn-hover">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" class="mr-4">
           <path d="M12 2.163c3.204 0 3.584.012 4.85.07...fill="white"/>
         </svg>
@@ -371,7 +387,7 @@
 
   <!-- Booking Modal -->
   <div id="bookingModal" class="hidden fixed inset-0 bg-black/70 z-50 items-center justify-center">
-    <div class="booking-form bg-white rounded-xl p-8 w-full max-w-md mx-4">
+    <div class="booking-form bg-white rounded-xl p-8 w-full max-w-md mx-4 animate-fade-in">
       <div class="flex justify-between items-center mb-6">
         <h2 id="formTitle" class="text-2xl font-bold">Book Your Adventure</h2>
         <button id="closeModal" class="close-button text-3xl font-bold text-gray-500 hover:text-red-500">&times;</button>
@@ -435,6 +451,8 @@
       const form = document.getElementById('bookingForm');
       const englishBtn = document.getElementById('englishBtn');
       const japaneseBtn = document.getElementById('japaneseBtn');
+      const exploreBtn = document.getElementById('exploreActivities');
+      const activitiesSection = document.getElementById('activitiesSection');
 
       let currentLang = 'en';
 
@@ -484,15 +502,27 @@
       englishBtn.addEventListener('click', () => updateText('en'));
       japaneseBtn.addEventListener('click', () => updateText('ja'));
 
-      // Modal
+      // Scroll to Activities
+      exploreBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        activitiesSection.scrollIntoView({ behavior: 'smooth' });
+        activitiesSection.classList.add('pulse-once');
+        setTimeout(() => activitiesSection.classList.remove('pulse-once'), 600);
+      });
+
+      // Modal: Open
       openBtn.addEventListener('click', () => {
         modal.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
       });
+
+      // Modal: Close
       closeBtn.addEventListener('click', () => {
         modal.classList.add('hidden');
         document.body.style.overflow = '';
       });
+
+      // Close modal when clicking outside
       modal.addEventListener('click', (e) => {
         if (e.target === modal) {
           modal.classList.add('hidden');
