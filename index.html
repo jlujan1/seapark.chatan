@@ -120,6 +120,8 @@
       animation: gradient 15s ease infinite;
       margin: 0;
       padding: 0;
+      min-height: 100vh;
+      position: relative;
     }
     @keyframes gradient {
       0% { background-position: 0% 50%; }
@@ -173,9 +175,14 @@
     .pulse-once {
       animation: pulse 0.6s ease-in-out;
     }
+
+    /* FORCE CENTER MODAL */
+    #bookingModal.show {
+      display: flex !important;
+    }
   </style>
 </head>
-<body class="min-h-screen flex flex-col bg-gray-50 transition-colors duration-300">
+<body class="min-h-screen flex flex-col bg-gray-50">
 
   <!-- Header -->
   <header class="bg-white/20 backdrop-blur-xl p-6 w-full sticky top-0 z-50">
@@ -386,7 +393,7 @@
   </footer>
 
   <!-- Booking Modal -->
-  <div id="bookingModal" class="hidden fixed inset-0 bg-black/70 z-50 items-center justify-center">
+  <div id="bookingModal" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
     <div class="booking-form bg-white rounded-xl p-8 w-full max-w-md mx-4 animate-fade-in">
       <div class="flex justify-between items-center mb-6">
         <h2 id="formTitle" class="text-2xl font-bold">Book Your Adventure</h2>
