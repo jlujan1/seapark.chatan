@@ -4,15 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="SEAPARK CHATAN - Experience ultimate water activities in Okinawa including floating obstacle courses, jet skiing, flyboarding, and more. Book your adventure today!" />
-  <title>SEAPARK CHATAN - Water Activities</title>
+  <title>SEAPARK CHATAN - Water Activities in Okinawa</title>
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet" />
 
-  <!-- Tailwind Config + Multi-Language JSON -->
+  <!-- Tailwind Config & Multi-Language JSON -->
   <script>
     const LANG = {
       en: {
@@ -68,6 +68,7 @@
       theme: {
         fontFamily: {
           sans: ['Montserrat', 'sans-serif'],
+          title: ['Montserrat', 'sans-serif']
         },
         extend: {
           backgroundImage: {
@@ -75,39 +76,42 @@
             'gradient': 'linear-gradient(135deg, #00416A, #E4E5E6, #4A90E2, #50C878, #FFD700)'
           },
           animation: {
-            'fade-in': 'fadeIn 0.8s ease-in',
+            'fade-in': 'fadeIn 1s ease-out',
             'floating': 'floating 6s ease-in-out infinite',
             'pulse': 'pulse 2s infinite',
-            'slide-up': 'slideUp 0.6s ease-out'
+            'slide-up': 'slideUp 0.8s ease-out',
+            'scale-in': 'scaleIn 0.5s ease-out'
           },
           keyframes: {
             fadeIn: {
-              '0%': { opacity: 0, transform: 'translateY(40px)' },
+              '0%': { opacity: 0, transform: 'translateY(50px)' },
               '100%': { opacity: 1, transform: 'translateY(0)' }
             },
             floating: {
               '0%, 100%': { transform: 'translateY(0)' },
-              '50%': { transform: 'translateY(-12px)' }
+              '50%': { transform: 'translateY(-15px)' }
             },
             pulse: {
               '0%': { transform: 'scale(1)' },
-              '50%': { transform: 'scale(1.03)' },
+              '50%': { transform: 'scale(1.05)' },
               '100%': { transform: 'scale(1)' }
             },
             slideUp: {
-              '0%': { opacity: 0, transform: 'translateY(30px)' },
+              '0%': { opacity: 0, transform: 'translateY(40px)' },
               '100%': { opacity: 1, transform: 'translateY(0)' }
+            },
+            scaleIn: {
+              '0%': { transform: 'scale(0.9)', opacity: 0 },
+              '100%': { transform: 'scale(1)', opacity: 1 }
             }
           }
         }
       },
       safelist: [
-        'bg-gradient-to-r', 'from-orange-500', 'to-red-600', 'from-blue-500', 'to-indigo-700',
-        'from-gray-600', 'to-gray-700', 'hover:from-blue-600', 'hover:to-indigo-800',
-        'drop-shadow', 'drop-shadow-lg', 'drop-shadow-2xl', 'text-5xl', 'text-7xl', 'text-2xl',
-        'backdrop-blur-xl', 'backdrop-blur-lg', 'bg-white/20', 'bg-white/95', 'border-white/30',
-        'grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-3', 'animate-fade-in', 'animate-floating',
-        'animate-pulse', 'animate-slide-up'
+        'animate-fade-in', 'animate-floating', 'animate-pulse', 'animate-slide-up', 'animate-scale-in',
+        'bg-gradient-to-r', 'from-blue-600', 'to-indigo-700', 'from-orange-500', 'to-red-600', 'from-gray-600', 'to-gray-700',
+        'text-4xl', 'text-5xl', 'text-6xl', 'text-7xl', 'text-white', 'text-blue-900', 'text-red-600',
+        'grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-3', 'max-w-xs', 'mx-auto'
       ]
     };
   </script>
@@ -120,8 +124,6 @@
       animation: gradient 15s ease infinite;
       margin: 0;
       padding: 0;
-      min-height: 100vh;
-      position: relative;
     }
     @keyframes gradient {
       0% { background-position: 0% 50%; }
@@ -129,17 +131,17 @@
       100% { background-position: 0% 50%; }
     }
     .logo {
-      height: 80px;
-      width: 80px;
+      height: 90px;
+      width: 90px;
       border-radius: 50%;
       border: 4px solid white;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
       transition: all 0.3s ease;
       object-fit: cover;
     }
     .logo:hover {
-      transform: scale(1.05) rotate(5deg);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+      transform: scale(1.08) rotate(5deg);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.4);
     }
     .hero {
       background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
@@ -149,36 +151,31 @@
       background-attachment: fixed;
       color: white;
       text-align: center;
-      padding: 150px 20px 100px;
+      padding: 180px 20px 120px;
     }
     .activity-card {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 24px;
       overflow: hidden;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+      backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.3);
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     .activity-card:hover {
-      transform: translateY(-15px) scale(1.03);
-      box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+      transform: translateY(-20px) scale(1.04);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.3);
     }
     .jp-text { display: none; }
     .btn-hover {
       transition: all 0.3s ease;
     }
     .btn-hover:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.2);
     }
     .pulse-once {
       animation: pulse 0.6s ease-in-out;
-    }
-
-    /* FORCE CENTER MODAL */
-    #bookingModal.show {
-      display: flex !important;
     }
   </style>
 </head>
@@ -190,7 +187,7 @@
       <div class="flex items-center">
         <img src="https://i.imgur.com/G2aRZc4.jpg" alt="Seapark Chatan Logo" class="logo" />
         <div class="ml-6 text-white">
-          <h1 id="header-title" class="text-4xl sm:text-5xl font-bold drop-shadow-lg">SEAPARK CHATAN</h1>
+          <h1 id="header-title" class="text-5xl font-bold drop-shadow-lg">SEAPARK CHATAN</h1>
           <p id="header-subtitle-en" class="text-xl drop-shadow en-text">水上アスレチック</p>
           <p id="header-subtitle-jp" class="text-xl drop-shadow jp-text">Water Activities</p>
         </div>
@@ -209,26 +206,26 @@
 
   <!-- Hero Section -->
   <section class="hero">
-    <div class="max-w-4xl mx-auto">
-      <h1 id="heroTitle" class="text-5xl sm:text-6xl font-bold mb-6 drop-shadow-2xl text-white animate-fade-in">ADVENTURE AWAITS</h1>
-      <p id="heroDesc" class="text-xl sm:text-2xl mb-8 drop-shadow-xl text-white animate-fade-in" style="animation-delay: 0.3s">Experience the ultimate water activities in Okinawa</p>
-      <button id="exploreActivities" class="explore-button bg-gradient-to-r from-blue-500 to-indigo-700 hover:from-blue-600 hover:to-indigo-800 text-white font-bold px-10 py-4 rounded-full shadow-lg transform hover:scale-105 transition duration-300 text-lg animate-floating btn-hover" style="animation-delay: 0.6s">
+    <div class="max-w-5xl mx-auto px-6">
+      <h1 id="heroTitle" class="text-6xl sm:text-7xl font-bold mb-6 drop-shadow-2xl text-white animate-fade-in">ADVENTURE AWAITS</h1>
+      <p id="heroDesc" class="text-2xl sm:text-3xl mb-10 drop-shadow-xl text-white animate-fade-in" style="animation-delay: 0.3s">Experience the ultimate water activities in Okinawa</p>
+      <button id="exploreActivities" class="explore-button bg-gradient-to-r from-blue-500 to-indigo-700 hover:from-blue-600 hover:to-indigo-800 text-white font-bold px-12 py-5 rounded-full shadow-lg transform hover:scale-105 transition duration-300 text-xl animate-floating btn-hover" style="animation-delay: 0.6s">
         <span id="exploreBtnText">Explore Activities</span>
       </button>
     </div>
   </section>
 
   <!-- Main Content -->
-  <main class="flex-grow w-full max-w-7xl mx-auto px-4 py-16" id="activitiesSection">
-    <div class="text-center mb-12">
-      <h2 id="adventuresTitle" class="text-4xl sm:text-5xl font-bold text-white drop-shadow-2xl mb-6 animate-slide-up">Our Water Adventures</h2>
-      <p id="discoverText" class="text-lg sm:text-xl text-white/90 max-w-3xl mx-auto drop-shadow animate-slide-up" style="animation-delay: 0.2s">
+  <main class="flex-grow w-full max-w-7xl mx-auto px-6 py-20" id="activitiesSection">
+    <div class="text-center mb-16">
+      <h2 id="adventuresTitle" class="text-5xl font-bold text-white drop-shadow-2xl mb-6 animate-slide-up">Our Water Adventures</h2>
+      <p id="discoverText" class="text-xl text-white/95 max-w-4xl mx-auto drop-shadow animate-slide-up" style="animation-delay: 0.2s">
         Discover a world of aquatic excitement with our premium water activities.
       </p>
     </div>
 
     <!-- Activity Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
       <!-- Activity 1 -->
       <div class="activity-card bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-white/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4 animate-fade-in" style="animation-delay: 0.1s">
         <img src="https://placehold.co/400x300/00416A/FFFFFF?text=Floating+Obstacle+Course" alt="Floating Obstacle Course" class="w-full h-56 object-cover" />
@@ -363,12 +360,12 @@
   </main>
 
   <!-- Instagram Section -->
-  <section class="bg-white/15 backdrop-blur-lg py-16 text-center">
-    <div class="max-w-5xl mx-auto px-4">
-      <h2 id="followTitle" class="text-4xl font-bold text-white mb-6 animate-slide-up">Follow Our Adventures</h2>
-      <p id="instagramText" class="text-xl text-white/95 mb-12 animate-slide-up" style="animation-delay: 0.2s">See real moments from our guests on Instagram</p>
-      <a href="https://www.instagram.com/seapark__chattan/" target="_blank" class="inline-flex items-center bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white px-10 py-5 rounded-full hover:from-purple-600 hover:via-pink-600 hover:to-red-600 transition-all duration-300 text-xl font-bold shadow-2xl hover:shadow-3xl transform hover:scale-105 pulse btn-hover">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" class="mr-4">
+  <section class="bg-white/15 backdrop-blur-lg py-20 text-center">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 id="followTitle" class="text-5xl font-bold text-white mb-8 animate-slide-up">Follow Our Adventures</h2>
+      <p id="instagramText" class="text-2xl text-white/95 mb-12 animate-slide-up" style="animation-delay: 0.2s">See real moments from our guests on Instagram</p>
+      <a href="https://www.instagram.com/seapark__chattan/" target="_blank" class="inline-flex items-center bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white px-12 py-6 rounded-full hover:from-purple-600 hover:via-pink-600 hover:to-red-600 transition-all duration-300 text-2xl font-bold shadow-2xl hover:shadow-3xl transform hover:scale-105 pulse btn-hover">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" class="mr-4">
           <path d="M12 2.163c3.204 0 3.584.012 4.85.07...fill="white"/>
         </svg>
         <span id="instagramHandle">@seapark__chattan</span>
@@ -377,7 +374,7 @@
   </section>
 
   <!-- Footer -->
-  <footer class="bg-black/40 backdrop-blur-xl text-white p-10">
+  <footer class="bg-black/40 backdrop-blur-xl text-white p-12">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between">
       <div class="text-center md:text-left mb-6 md:mb-0">
         <div class="flex items-center justify-center md:justify-start mb-4">
@@ -393,28 +390,28 @@
   </footer>
 
   <!-- Booking Modal -->
-  <div id="bookingModal" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
-    <div class="booking-form bg-white rounded-xl p-8 w-full max-w-md mx-4 animate-fade-in">
-      <div class="flex justify-between items-center mb-6">
-        <h2 id="formTitle" class="text-2xl font-bold">Book Your Adventure</h2>
-        <button id="closeModal" class="close-button text-3xl font-bold text-gray-500 hover:text-red-500">&times;</button>
+  <div id="bookingModal" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+    <div class="booking-form bg-white rounded-3xl p-10 w-full max-w-lg mx-auto animate-scale-in">
+      <div class="flex justify-between items-center mb-8">
+        <h2 id="formTitle" class="text-3xl font-bold text-blue-900">Book Your Adventure</h2>
+        <button id="closeModal" class="close-button text-4xl font-bold text-gray-500 hover:text-red-500 transition">&times;</button>
       </div>
-      <form id="bookingForm" class="space-y-4">
+      <form id="bookingForm" class="space-y-5">
         <div class="form-group">
           <label id="nameLabel" class="block font-semibold text-blue-900">Full Name</label>
-          <input type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" required />
+          <input type="text" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg" required />
         </div>
         <div class="form-group">
           <label id="phoneLabel" class="block font-semibold text-blue-900">Phone Number</label>
-          <input type="tel" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" required />
+          <input type="tel" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg" required />
         </div>
         <div class="form-group">
           <label id="emailLabel" class="block font-semibold text-blue-900">Email (Optional)</label>
-          <input type="email" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" />
+          <input type="email" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg" />
         </div>
         <div class="form-group">
           <label id="activityLabel" class="block font-semibold text-blue-900">Select Activity</label>
-          <select class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" required>
+          <select class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg" required>
             <option value="">-- Select --</option>
             <option>Floating Obstacle Course</option>
             <option>Jet Ski & Marine Package</option>
@@ -430,7 +427,7 @@
         </div>
         <div class="form-group">
           <label id="timeLabel" class="block font-semibold text-blue-900">Time</label>
-          <select class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" required>
+          <select class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg" required>
             <option value="">-- Select --</option>
             <option value="9:30">9:30 AM</option>
             <option value="10:30">10:30 AM</option>
@@ -442,7 +439,7 @@
             <option value="16:30">4:30 PM</option>
           </select>
         </div>
-        <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-bold py-3 rounded-lg hover:from-blue-700 hover:to-indigo-800 transform hover:-translate-y-1 transition-all">
+        <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-bold py-4 rounded-xl text-xl hover:from-blue-700 hover:to-indigo-800 transform hover:-translate-y-1 transition-all">
           <span id="submitBtnText">Submit Booking</span>
         </button>
       </form>
