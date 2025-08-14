@@ -324,9 +324,8 @@
         </div>
       </div>
 
-      <!-- Activity 10 - Centered -->
-      <div class="activity-card bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-white/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4 animate-fade-in last-activity mx-auto max-w-xs"
-           style="animation-delay: 1.0s; grid-column: 1 / -1;">
+      <!-- Activity 10 - Diving & Snorkeling -->
+      <div class="activity-card bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-white/30 transition-all duration-500 hover:shadow-2xl hover:-translate-y-4 animate-fade-in" style="animation-delay: 1.0s">
         <img src="https://raw.githubusercontent.com/jlujan1/seapark-images/eeb23e7c06e23174e83fa0c0e243d2e25e313864/Diving%20%26%20Snorkeling.png" alt="Diving & Snorkeling" class="activity-img" />
         <div class="p-6">
           <h2 class="activity-title text-2xl font-bold text-blue-900">Diving & Snorkeling</h2>
@@ -346,7 +345,8 @@
       <h2 id="followTitle" class="text-5xl font-bold text-white mb-8">Follow Our Adventures</h2>
       <p id="instagramText" class="text-2xl text-white/95 mb-12">See real moments from our guests on Instagram</p>
       <a href="https://www.instagram.com/seapark__chattan/" target="_blank" class="inline-flex items-center bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white px-12 py-6 rounded-full hover:from-purple-600 hover:via-pink-600 hover:to-red-600 transition-all duration-300 text-2xl font-bold shadow-2xl hover:shadow-3xl transform hover:scale-105 pulse btn-hover">
-        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" class="mr-4">
+        <!-- White Instagram Logo -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" class="mr-4" fill="white">
           <path d="M12 2.163c3.204 0 3.584.012 4.85.07...fill="white"/>
         </svg>
         <span id="instagramHandle">@seapark__chattan</span>
@@ -377,22 +377,22 @@
         <h2 id="formTitle" class="text-3xl font-bold text-blue-900">Book Your Adventure</h2>
         <button id="closeModal" class="close-button text-4xl font-bold text-gray-500 hover:text-red-500 transition">&times;</button>
       </div>
-      <form id="bookingForm" class="space-y-5">
+      <form id="bookingForm" class="space-y-5" action="https://formspree.io/f/your-form-id" method="POST">
         <div class="form-group">
           <label id="nameLabel" class="block font-semibold text-blue-900">Full Name</label>
-          <input type="text" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg" required />
+          <input type="text" name="name" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg" required />
         </div>
         <div class="form-group">
           <label id="phoneLabel" class="block font-semibold text-blue-900">Phone Number</label>
-          <input type="tel" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg" required />
+          <input type="tel" name="phone" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg" required />
         </div>
         <div class="form-group">
           <label id="emailLabel" class="block font-semibold text-blue-900">Email (Optional)</label>
-          <input type="email" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg" />
+          <input type="email" name="email" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg" />
         </div>
         <div class="form-group">
           <label id="activityLabel" class="block font-semibold text-blue-900">Select Activity</label>
-          <select class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg" required>
+          <select name="activity" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg" required>
             <option value="">-- Select --</option>
             <option>Floating Obstacle Course</option>
             <option>Jet Ski & Marine Package</option>
@@ -408,7 +408,7 @@
         </div>
         <div class="form-group">
           <label id="timeLabel" class="block font-semibold text-blue-900">Time</label>
-          <select class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg" required>
+          <select name="time" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 text-lg" required>
             <option value="">-- Select --</option>
             <option value="9:30">9:30 AM</option>
             <option value="10:30">10:30 AM</option>
@@ -546,30 +546,9 @@
         }
       });
 
-      // Form Submit
+      // Form Submit Success
       form.addEventListener('submit', function (e) {
         e.preventDefault();
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
-
-        // Create email body
-        const subject = `New Booking from SEAPARK CHATAN`;
-        const body = `
-          New Booking Request:
-          Name: ${data['name'] || 'N/A'}
-          Phone: ${data['phone'] || 'N/A'}
-          Email: ${data['email'] || 'N/A'}
-          Activity: ${data['activity'] || 'N/A'}
-          Time: ${data['time'] || 'N/A'}
-          Notes: ${data['notes'] || 'N/A'}
-          Submitted on: ${new Date().toLocaleString()}
-        `.trim();
-
-        // Send email via mailto
-        const mailtoLink = `mailto:connect@chatan-information-center.co.jp?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        window.location.href = mailtoLink;
-
-        // Show thank you
         alert(LANG[currentLang].thankYou);
         form.reset();
         modal.classList.add('hidden');
